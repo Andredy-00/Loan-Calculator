@@ -2,3 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-principal: RGB(238, 238, 238);
+  --color-borde: RGB(204, 204, 204);
+  --color-barras: RGB(237, 140, 43);
+  --color-letras: RGB(33, 37, 41);
+  --color-field: RGB(255, 255, 255);
+  --color-border-field: RGB(206,212,218);
+  --color-fondo-tipo-moneda: RGB(233,236,239);
+  --color-letra-field: RGB(73,80,87);
+  /* EMI Scheme */
+  --color-EMI-in-arrears: RGB(203,211,218);
+  --color-subletras-EMI: RGB(116,116,116);
+  --color-grafica-verde: RGB(136,168,37);
+  --color-grafica-amarillo: RGB(237,140,43);
+  --color-grafica-rojo: RGB(207,74,48);
+}
+
+@layer components {
+  .bg-gris-principal {
+    background-color: RGB(238, 238, 238); 
+  }
+
+  .outline-dashed-gris {
+    border: 3px dashed RGB(204, 204, 204);
+  }
+}
+
