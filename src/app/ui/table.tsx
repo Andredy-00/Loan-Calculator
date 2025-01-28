@@ -1,10 +1,13 @@
-import { calculatePayments, Payment } from "../lib/action";
+import { Payment } from "../lib/definitions";
+import { calcularPago } from "../lib/utils";
+
+
 
 export default function Table() {
   const principal = 2000000;
   const annualInterestRate = 5;
   const years = 5;
-  const payments = calculatePayments(principal, annualInterestRate, years);
+  const payments = calcularPago(principal, annualInterestRate, years);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
