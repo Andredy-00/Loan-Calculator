@@ -54,7 +54,7 @@ export const calculateCost = (
     return payments;
   };
 
-  export const agruparPorAño = (payments: Payment[]) => {
+  export const agruparPorAno = (payments: Payment[]) => {
     return payments.reduce((acc, payment) => {
       const year = payment.year;
       
