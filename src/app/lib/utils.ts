@@ -1,4 +1,4 @@
-import { Payment } from "./definitions";
+import { PagoPorAno, Payment } from "./definitions";
 
 
 export const calculateCost = (
@@ -47,6 +47,31 @@ export const calculateCost = (
         percentagePaid: percentagePaid,
       });
     }
+
+    console.log(payments);
+    
   
     return payments;
   };
+
+  export const agruparPorAño = (payments: Payment[]) => {
+    return payments.reduce((acc, payment) => {
+      const year = payment.year;
+      
+      if (!acc[year]) {
+        acc[year] = [];
+      }
+      
+      acc[year].push({
+        month: payment.month,
+        principal: payment.principal,
+        interest: payment.interest,
+        total: payment.total,
+        balance: payment.balance,
+        percentagePaid: payment.percentagePaid
+      });
+      
+      return acc;
+    }, {} as Record<number, any[]>);
+  };
+  

@@ -13,3 +13,13 @@ export type Loan = {
   interestRate: number;
   loanTenure: number;
 }
+
+export type PagoPorAno = {
+  month: number;
+    principal: number;
+    interest: number;
+    total: number;
+    balance: number;
+    percentagePaid: number;
+  
+}
