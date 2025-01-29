@@ -1,23 +1,22 @@
 "use client";
-import { useState } from "react";
-import { Payment } from "../lib/definitions";
+import { useEffect, useState } from "react";
+import { Loan, Payment, TableProps } from "../lib/definitions";
 import { agruparPorAno, calcularPago } from "../lib/utils";
 
-export default function Table() {
-  const principal = 1000000;
-  const fechaInicio = new Date(2025, 5, 1);
-  const annualInterestRate = 5;
-  const years = 5;
-  const payments = calcularPago(
-    principal,
-    annualInterestRate,
-    years,
-    fechaInicio
-  );
-  const pagoPorAno = agruparPorAno(payments);
-
+export default function Table({ loanData }: TableProps) {
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [pagoPorAno, setPagoPorAno] = useState<Record<string, Payment[]>>({});
   const [expandedYear, setExpandedYear] = useState<string | null>(null);
-  console.log(pagoPorAno);
+
+  useEffect(() => {
+    if (loanData) {
+      const { amount, interest, term, date } = loanData;
+      const fechaInicio = new Date(`${date}-01`);
+      const newPayments = calcularPago(amount!, interest!, term!, fechaInicio);
+      setPayments(newPayments);
+      setPagoPorAno(agruparPorAno(newPayments));
+    }
+  }, [loanData]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">

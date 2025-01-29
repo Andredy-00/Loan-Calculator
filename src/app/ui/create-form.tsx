@@ -1,30 +1,96 @@
-export default function CreateForm() {
+"use client";
+
+import { useState } from "react";
+import { postForm } from "../lib/action";
+import { CreateFormProps } from "../lib/definitions";
+
+export default function CreateForm({onDataChange}: CreateFormProps) {
+  const [formData, setFormData] = useState({
+    amount: 0,
+    interest: 5,
+    term: 1,
+    date: "2025-01"
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    
+  };
+
+  const handleBlur = () => {
+    const loanData = postForm(formData);
+    onDataChange(loanData);
+  };
+
   return (
     <div className="border-solid border-black">
-      <form action="" className=" w-3/5">
-        <div className="renge-barra renge-barra-2 renge-barra-3 renge-barra-4 renge-barra-5 renge-barra 6">
-          <label htmlFor="">
-            home loan amount
-            <input type="text" />
-            {/* <input
-              type="range"
-              className="w-full h-2 bg-orange-500 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:bg-orange-600 [&::-webkit-slider-thumb]:rounded-full [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:bg-orange-600 [&::-moz-range-thumb]:rounded-full"
-              min="0"
-              max="100"
-              defaultValue="50"
-            /> */}
-            <div className="range-input">
-              <span className="progress-before"></span>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                defaultValue="0"
-                className=""
-              />
-              <span className="progress-after"></span>
-            </div>
-          </label>
+      <form className="w-3/5">
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="amount" className="block mb-2">
+              Home Loan Amount
+            </label>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              onBlur={handleBlur}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="interest" className="block mb-2">
+              Interest Rate
+            </label>
+            <input
+              type="number"
+              id="interest"
+              name="interest"
+              value={formData.interest}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              onBlur={handleBlur}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="term" className="block mb-2">
+              Loan Tenure
+            </label>
+            <input
+              type="number"
+              id="term"
+              name="term"
+              value={formData.term}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              onBlur={handleBlur}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="date" className="block mb-2">
+              Select Month
+            </label>
+            <input
+              type="month"
+              id="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              onBlur={handleBlur}
+            />
+          </div>
         </div>
       </form>
     </div>
