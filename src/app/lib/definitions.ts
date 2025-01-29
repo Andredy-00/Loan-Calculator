@@ -1,4 +1,3 @@
-import Table from '../ui/table';
 export interface Payment {
   year: number;
   month: number;
@@ -9,19 +8,14 @@ export interface Payment {
   balance: number;
   percentagePaid: number;
 }
+export interface TableProps {
+  data: Record<number, Payment[]>
+}
 
 export interface CreateFormProps {
   onDataChange: (data: Loan | null) => void;
 }
 
-export interface TableProps {
-  loanData: {
-    amount: number;
-    interest: number;
-    term: number;
-    date: string;
-  } | null,
-}
 export type Loan = {
   amount: number;
   interest: number;

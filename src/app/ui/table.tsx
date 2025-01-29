@@ -1,31 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Loan, Payment, TableProps } from "../lib/definitions";
-import { agruparPorAno, calcularPago } from "../lib/utils";
-import { fetchLoanData } from "../lib/data";
+import { Payment, TableProps } from "../lib/definitions";
+import { useState } from "react";
 
-export default function Table({ loanData }: TableProps) {
+export default function Table({ data }: TableProps) {
 
-  fetchLoanData().then(data => {
-    console.log(data);
-  });
-  
-  
-
-  const [payments, setPayments] = useState<Payment[]>([]);
-  const [pagoPorAno, setPagoPorAno] = useState<Record<string, Payment[]>>({});
   const [expandedYear, setExpandedYear] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (loanData) {
-      const { amount, interest, term, date } = loanData;
-      const fechaInicio = new Date(`${date}-01T00:00:00`);
-      const newPayments = calcularPago(amount!, interest!, term!, fechaInicio);
-      setPayments(newPayments);
-      setPagoPorAno(agruparPorAno(newPayments));
-      console.log(payments);
-    }
-  }, [loanData]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white">
@@ -48,7 +27,7 @@ export default function Table({ loanData }: TableProps) {
               </tr>
             </thead>
             <tbody>
-              {Object.entries(pagoPorAno).map(([ano, pagos]) => {
+              {Object.entries(data).map(([ano, pagos]) => {
                 const totalInteresAno = pagos.reduce(
                   (sum, pago) => sum + pago.interest,
                   0
