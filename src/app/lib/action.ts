@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import path from "path";
 import fs from "fs";
+import { Loan } from "./definitions";
 
 const DATA_FILE_PATH = path.join(process.cwd(), 'src', 'app', 'data', 'loan-data.json');
 
@@ -26,7 +27,7 @@ export async function updateLoanData(formData: FormData) {
   return data;
 }
 
-export async function getLoanData() {
+export async function getLoanData():Promise<Loan> {
   const data = JSON.parse(fs.readFileSync(DATA_FILE_PATH, "utf8"));
   return data.loanData;
 }
