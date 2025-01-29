@@ -41,11 +41,9 @@ export const calculateCost = (
     
     // Inicializa las variables de seguimiento
     let currentDate = new Date(fechaInicio);
-    console.log(currentDate);
     
     let balance = principal;
     let mesInicial = currentDate.getMonth();
-    console.log(mesInicial);
     
     
     // Calcula los detalles de cada pago mensual
@@ -60,7 +58,6 @@ export const calculateCost = (
       // Calcula el mes y año actual considerando el mes inicial
       const currentMonth = (mesInicial + month) % 12;
       const currentYear = fechaInicio.getFullYear() + Math.floor((mesInicial + month) / 12);
-      console.log(currentYear);
       
   
       // Agrega el pago actual al array de pagos

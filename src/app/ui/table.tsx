@@ -4,19 +4,23 @@ import { Loan, Payment, TableProps } from "../lib/definitions";
 import { agruparPorAno, calcularPago } from "../lib/utils";
 
 export default function Table({ loanData }: TableProps) {
-  const [payments, setPayments] = useState<Payment[]>([]);
-  const [pagoPorAno, setPagoPorAno] = useState<Record<string, Payment[]>>({});
-  const [expandedYear, setExpandedYear] = useState<string | null>(null);
+  const [payments, setPayments] = useState<Payment[]>([])
+  const [pagoPorAno, setPagoPorAno] = useState<Record<string, Payment[]>>({})
+  const [expandedYear, setExpandedYear] = useState<string | null>(null)
 
   useEffect(() => {
     if (loanData) {
-      const { amount, interest, term, date } = loanData;
-      const fechaInicio = new Date(`${date}-01`);
-      const newPayments = calcularPago(amount!, interest!, term!, fechaInicio);
-      setPayments(newPayments);
-      setPagoPorAno(agruparPorAno(newPayments));
+      const { amount, interest, term, date } = loanData
+      const fechaInicio = new Date(`${date}-01T00:00:00`)
+      console.log(date);
+      
+      console.log(fechaInicio);
+      
+      const newPayments = calcularPago(amount!, interest!, term!, fechaInicio)
+      setPayments(newPayments)
+      setPagoPorAno(agruparPorAno(newPayments))
     }
-  }, [loanData]);
+  }, [loanData])
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">

@@ -1,20 +1,32 @@
+"use server";
+import { revalidatePath } from "next/cache";
+import path from "path";
+import fs from "fs";
 
+const DATA_FILE_PATH = path.join(process.cwd(), 'src', 'app', 'data', 'loan-data.json');
 
-import { fetchLoanData } from "./data";
-import { Loan } from "./definitions";
-
-export function postForm(formData: Loan) {
-  
-  try {
-
-    localStorage.setItem('loanData', JSON.stringify(formData));
-    
-  } catch (error) {
-    console.log('Error al guardar');
-    return null;
+export async function updateLoanData(formData: FormData) {
+  interface LoanData {
+    amount: number;
+    interest: number;
+    term: number;
+    date: string;
   }
 
-  return fetchLoanData();
+  const data: LoanData = {
+    amount: Number(formData.get("amount")),
+    interest: Number(formData.get("interest")),
+    term: Number(formData.get("term")),
+    date: formData.get("date") as string,
+  };
+
+  fs.writeFileSync(DATA_FILE_PATH, JSON.stringify({ loanData: data }, null, 2));
+  await new Promise(resolve => setTimeout(resolve, 500));
+  revalidatePath("/");
+  return data;
 }
 
-  
+export async function getLoanData() {
+  const data = JSON.parse(fs.readFileSync(DATA_FILE_PATH, "utf8"));
+  return data.loanData;
+}
