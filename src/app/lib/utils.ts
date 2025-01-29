@@ -74,19 +74,25 @@ export const calculateCost = (
   
     return payments;
   }  
+
   export function agruparPorAno(payments: Payment[]) {
-    // Reduce el array de pagos a un objeto agrupado por año
-    // El objeto resultante tiene como claves los años y como valores arrays de pagos
+    const MESES = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+  
     return payments.reduce((grupos, pago) => {
       const año = pago.year;
-      // Si no existe un array para este año, lo inicializamos
       if (!grupos[año]) {
         grupos[año] = [];
       }
-      // Agregamos el pago actual al array del año correspondiente
-      grupos[año].push(pago);
+      grupos[año].push({
+        ...pago,
+        monthName: MESES[pago.month]
+      });
       return grupos;
     }, {} as Record<number, Payment[]>);
   }
+  
   
   

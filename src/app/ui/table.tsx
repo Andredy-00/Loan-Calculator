@@ -12,13 +12,11 @@ export default function Table({ loanData }: TableProps) {
     if (loanData) {
       const { amount, interest, term, date } = loanData
       const fechaInicio = new Date(`${date}-01T00:00:00`)
-      console.log(date);
-      
-      console.log(fechaInicio);
-      
       const newPayments = calcularPago(amount!, interest!, term!, fechaInicio)
       setPayments(newPayments)
       setPagoPorAno(agruparPorAno(newPayments))
+      console.log(payments);
+      
     }
   }, [loanData])
 
@@ -85,7 +83,7 @@ export default function Table({ loanData }: TableProps) {
                     <>
                       {pagos.map((pago: Payment) => (
                         <tr key={`${ano}-${pago.month}`} className="bg-gray-50">
-                          <td className="pl-8">Mes {pago.month}</td>
+                          <td className="pl-8">{pago.monthName}</td>
                           <td>{pago.principal.toFixed(2)}</td>
                           <td>{pago.interest.toFixed(2)}</td>
                           <td>{pago.total.toFixed(2)}</td>

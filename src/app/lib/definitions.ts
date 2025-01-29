@@ -2,6 +2,7 @@ import Table from '../ui/table';
 export interface Payment {
   year: number;
   month: number;
+  monthName?: string;
   principal: number;
   interest: number;
   total: number;
