@@ -3,7 +3,6 @@ import { Payment, TableProps } from "../lib/definitions";
 import { useState } from "react";
 
 export default function Table({ data }: TableProps) {
-
   const [expandedYear, setExpandedYear] = useState<string | null>(null);
 
   return (
@@ -17,13 +16,11 @@ export default function Table({ data }: TableProps) {
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="px-6 py-4 text-left">Año</th>
-                <th className="px-6 py-4 text-right">Principal</th>
-                <th className="px-6 py-4 text-right">Interés</th>
-                <th className="px-6 py-4 text-right">Pago Total A + B</th>
+                <th className="px-6 py-4 text-right">Principal (A)</th>
+                <th className="px-6 py-4 text-right">Interés (B)</th>
+                <th className="px-6 py-4 text-right">Pago Total (A+B)</th>
                 <th className="px-6 py-4 text-right">Balance</th>
-                <th className="px-6 py-4 text-right">
-                  Prestamo pagado hasta la fecha
-                </th>
+                <th className="px-6 py-4 text-right">Préstamo Pagado</th>
               </tr>
             </thead>
             <tbody>
@@ -36,7 +33,7 @@ export default function Table({ data }: TableProps) {
                   (sum, pago) => sum + pago.principal,
                   0
                 );
-                const totoalPagoAno = pagos.reduce(
+                const totalPagoAno = pagos.reduce(
                   (sum, pago) => sum + pago.total,
                   0
                 );
@@ -82,7 +79,7 @@ export default function Table({ data }: TableProps) {
                         })}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        {totoalPagoAno.toLocaleString("es-CO", {
+                        {totalPagoAno.toLocaleString("es-CO", {
                           style: "currency",
                           currency: "COP",
                         })}
@@ -92,7 +89,7 @@ export default function Table({ data }: TableProps) {
                           style: "currency",
                           currency: "COP",
                         })}
-                      </td>{" "}
+                      </td>
                       <td className="px-6 py-4 text-right">
                         {ultimoPorcentajePagado.toFixed(2)}%
                       </td>
@@ -134,7 +131,7 @@ export default function Table({ data }: TableProps) {
                                 style: "currency",
                                 currency: "COP",
                               })}
-                            </td>{" "}
+                            </td>
                             <td className="px-6 py-3 text-right">
                               {pago.percentagePaid.toFixed(2)}%
                             </td>
