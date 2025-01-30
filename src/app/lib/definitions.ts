@@ -31,3 +31,11 @@ export type PagoPorAno = {
   balance: number;
   percentagePaid: number;
 };
+
+export interface BarChart {
+  year:string,
+  principal:number,
+  interest:number,
+  totalPayment:number,
+  balance:number,
+}
