@@ -24,8 +24,22 @@
     background-color: RGB(238, 238, 238);
   }
 
+  .rayita-slider {
+    width: 1.5px;
+    height: 10px;
+    background-color: RGB(204, 204, 204);
+  }
+
   .outline-dashed-gris {
     border: 3px dashed RGB(204, 204, 204);
+  }
+
+  .border-s-gris {
+    border: 1px solid RGB(204, 204, 204);
+  }
+
+  .bg-currency {
+    background-color: RGB(233, 236, 239);
   }
 
   .renge-barra input[type="range"] {

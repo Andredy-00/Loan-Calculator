@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useCallback } from 'react';
-import { getLoanData, updateLoanData } from '../lib/action';
+import { useEffect, useState, useCallback } from "react";
+import { getLoanData, updateLoanData } from "../lib/action";
 
 interface LoanFormValues {
   amount: number;
@@ -14,18 +14,19 @@ const initialFormValues: LoanFormValues = {
   amount: 20000000,
   interest: 6,
   term: 4,
-  date: "2025-01"
+  date: "2025-01",
 };
 
-const currencyFormatter = new Intl.NumberFormat('es-CO', {
-  style: 'currency',
-  currency: 'COP',
+const currencyFormatter = new Intl.NumberFormat("es-CO", {
+  style: "currency",
+  currency: "COP",
   maximumFractionDigits: 0,
 });
 
 export default function LoanCalculator() {
   const [pending, setPending] = useState(false);
-  const [formValues, setFormValues] = useState<LoanFormValues>(initialFormValues);
+  const [formValues, setFormValues] =
+    useState<LoanFormValues>(initialFormValues);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -33,19 +34,22 @@ export default function LoanCalculator() {
         const data = await getLoanData();
         setFormValues(data);
       } catch (error) {
-        console.error('Error loading initial data:', error);
+        console.error("Error loading initial data:", error);
       }
     };
     loadInitialData();
   }, []);
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormValues(prev => ({
-      ...prev,
-      [name]: name === 'date' ? value : Number(value)
-    }));
-  }, []);
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormValues((prev) => ({
+        ...prev,
+        [name]: name === "date" ? value : Number(value),
+      }));
+    },
+    []
+  );
 
   const handleMouseUp = useCallback(async () => {
     try {
@@ -56,7 +60,7 @@ export default function LoanCalculator() {
       });
       await updateLoanData(formData);
     } catch (error) {
-      console.error('Error updating loan data:', error);
+      console.error("Error updating loan data:", error);
     } finally {
       setPending(false);
     }
@@ -69,16 +73,24 @@ export default function LoanCalculator() {
     max: number,
     step: number,
     displayValue: string,
-    markers: string[]
+    markers: string[],
+    simbol?: string
   ) => (
     <div className="mb-8">
-      <h2 className="text-lg font-semibold mb-4">{title}</h2>
-      <input
-        type="text"
-        value={displayValue}
-        readOnly
-        className="w-full p-2 mb-4 border border-gray-300 rounded-md text-left text-lg font-semibold bg-gray-100"
-      />
+      <div className="w-full flex items-center justify-center gap-8 mb-1">
+        <h2 className="text-base">{title}</h2>
+        <div className="flex items-center">
+          <input
+            type="text"
+            value={displayValue}
+            readOnly
+            className="p-2 border border-gray-300 rounded-l-md text-left text-normal font-semibold bg-gray-100 w-64"
+          />
+          <div className="border border-gray-300 border-l-0 rounded-r-md h-full grid place-items-center w-8 p-2 bg-currency">
+            <span>{simbol}</span>
+          </div>
+        </div>
+      </div>
       <input
         type="range"
         min={min}
@@ -90,48 +102,53 @@ export default function LoanCalculator() {
         name={name}
         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
       />
-      <div className="flex justify-between text-sm text-gray-600 mt-2">
+      <div className="flex justify-between text-xs text-gray-600">
         {markers.map((marker, index) => (
-          <span key={index}>{marker}</span>
+          <div key={index} className="flex flex-col items-center">
+            <div className="rayita-slider"></div>
+            <span>{marker}</span>
+          </div>
         ))}
       </div>
     </div>
   );
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md max-w-md mx-auto">
+    <div className="p-6 w-8/12 bg-gris-principal border-s-gris">
       {renderSliderSection(
-        "Monto del Préstamo",
+        "Loan Amount",
         "amount",
         0,
         20000000,
         100000,
         currencyFormatter.format(formValues.amount),
-        ["$0", "$5M", "$10M", "$15M", "$20M"]
+        ["0", "2.5M", "5M", "7.5M", "10M", "12.5M", "15M", "17.5M", "20M"],
+        "$"
       )}
 
       {renderSliderSection(
-        "Tasa de Interés",
+        "Interest Rate",
         "interest",
         5,
         20,
         0.25,
-        `${formValues.interest}%`,
-        ["5%", "7.5%", "10%", "12.5%", "15%", "17.5%", "20%"]
+        `${formValues.interest}`,
+        ["5%", "7.5%", "10%", "12.5%", "15%", "17.5%", "20%"],
+        "%"
       )}
 
       {renderSliderSection(
-        "Plazo del Préstamo",
+        "Loan Tenure",
         "term",
         0,
         30,
         0.5,
-        `${formValues.term} Años`,
+        `${formValues.term}`,
         ["0", "5", "10", "15", "20", "25", "30"]
       )}
 
       <div>
-        <h2 className="text-lg font-semibold mb-4">Seleccionar Mes</h2>
+        <h2 className="text-lg font-semibold mb-4">Schedule showing EMI payments starting from</h2>
         <input
           type="month"
           value={formValues.date}

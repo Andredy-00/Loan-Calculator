@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { TableProps } from "../lib/definitions";
+import { DataProps } from "../lib/definitions";
 import { transformData } from "../lib/utils";
 
 // Función para formatear números como pesos colombianos
@@ -22,7 +22,7 @@ const formatCurrency = (value: number) => {
   }).format(value);
 };
 
-export default function BarChart(data: TableProps) {
+export default function BarChart(data: DataProps) {
   const dataTransformed = transformData(data);
 
   return (

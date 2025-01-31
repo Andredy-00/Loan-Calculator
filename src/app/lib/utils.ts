@@ -1,4 +1,4 @@
-import { BarChart, PagoPorAno, Payment, TableProps } from "./definitions";
+import { BarChart, DataProps, Payment } from "./definitions";
 
 export const calculateCost = (
   principal: number,
@@ -104,7 +104,7 @@ export function agruparPorAno(payments: Payment[]) {
   }, {} as Record<number, Payment[]>);
 }
 
-export const transformData = (data: TableProps): BarChart[] => {
+export const transformData = (data: DataProps): BarChart[] => {
   // Convertir el objeto en un array de [year, payments]
   const yearlyData = Object.entries(data.data).map(([year, payments]) => {
     // payments es siempre un array, según la definición de TableProps

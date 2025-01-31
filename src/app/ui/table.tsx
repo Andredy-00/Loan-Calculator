@@ -1,8 +1,8 @@
 "use client";
-import { Payment, TableProps } from "../lib/definitions";
+import { DataProps, Payment } from "../lib/definitions";
 import { useState } from "react";
 
-export default function Table({ data }: TableProps) {
+export default function Table({ data }: DataProps) {
   const [expandedYear, setExpandedYear] = useState<string | null>(null);
 
   return (

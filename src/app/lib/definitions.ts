@@ -7,13 +7,10 @@ export interface Payment {
   total: number;
   balance: number;
   percentagePaid: number;
+  feesCharges?: number;
 }
-export interface TableProps {
+export interface DataProps {
   data: Record<number, Payment[]>
-}
-
-export interface CreateFormProps {
-  onDataChange: (data: Loan | null) => void;
 }
 
 export type Loan = {
@@ -21,15 +18,6 @@ export type Loan = {
   interest: number;
   term: number;
   date: string;
-};
-
-export type PagoPorAno = {
-  month: number;
-  principal: number;
-  interest: number;
-  total: number;
-  balance: number;
-  percentagePaid: number;
 };
 
 export interface BarChart {
