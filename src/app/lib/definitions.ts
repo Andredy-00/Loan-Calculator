@@ -33,7 +33,13 @@ export interface EmiMora {
   loanEmi: number,
   loanApr: number,
   totalInterestPayable: number,  
-  totalPayment: number
+  totalPayment: number,
+  totolPrincipal?: number,
+  feesCharges?: number,
+}
+
+export interface EmiMoraProps {
+  data: EmiMora;
 }
 
 export interface TotalData {

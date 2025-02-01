@@ -160,12 +160,15 @@ export function calculateEmiMora(data: Record<number, Payment[]>, feesAndCharges
 
   // Total de pagos costeados acumulados  
   const totalPayment = totalPayments + feesAndCharges; // Total de todos los pagos  
+  const feesCharges = feesAndCharges; // Cargos fijos
 
   return {  
     loanEmi,  
     loanApr,  
     totalInterestPayable: totalInterest, // Total de intereses pagados  
-    totalPayment, // Total de todos los pagos mensuales  
+    totalPayment,// Total de todos los pagos mensuales  
+    totolPrincipal: totalPrincipal, // Total de todos los pagos
+    feesCharges
   };  
 }  
 

@@ -89,6 +89,10 @@
     border: 1px solid RGB(204, 204, 204);
   }
 
+  .color-border-gris {
+    border-color: RGB(204, 204, 204);
+  }
+
   .bg-currency {
     background-color: RGB(233, 236, 239);
   }
