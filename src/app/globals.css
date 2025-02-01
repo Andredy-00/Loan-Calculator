@@ -54,6 +54,12 @@
     font-weight: 400;
   }
 
+  /* Formu */
+
+  .color-form-input {
+    color: #555C62;
+  }
+
   .acordion-table {
     max-height: 0;
     overflow: hidden;
@@ -85,91 +91,5 @@
 
   .bg-currency {
     background-color: RGB(233, 236, 239);
-  }
-
-  .renge-barra input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    background: transparent;
-    cursor: pointer;
-    width: 100%;
-  }
-
-  .renge-barra-2 input[type="range"]:focus {
-    outline: none;
-  }
-
-  .renge-barra-3 input[type="range"]::-webkit-slider-runnable-track {
-    /* background: RGB(237, 140, 43); */
-    border-radius: 0.5rem;
-    height: 0.5rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .renge-barra-4 input[type="range"]::-moz-range-track {
-    /* background: RGB(237, 140, 43); */
-    border-radius: 0.5rem;
-    height: 0.5rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .renge-barra-5 input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-
-    height: 16px;
-    width: 16px;
-    border-radius: 100%;
-    background-color: red;
-    outline: 2px solid black;
-    margin-top: -5px;
-    z-index: 1;
-  }
-
-  .renge-barra-6 input[type="range"]::-moz-range-thumb {
-    border: none;
-    border-radius: 100%;
-
-    background-color: white;
-    outline: 2px solid black;
-
-    height: 14px;
-    width: 14px;
-
-    z-index: 1;
-  }
-
-  .progress-before {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 50%;
-    height: 8px;
-    margin-top: 6px;
-    border-radius: 12px;
-
-    background-color: red;
-    z-index: 0;
-  }
-
-  .progress-after {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    width: 50%;
-    height: 8px;
-    margin-top: 6px;
-    border-radius: 12px;
-
-    background-color: white;
-    z-index: 0;
-  }
-
-  .range-input {
-    position: relative;
   }
 }

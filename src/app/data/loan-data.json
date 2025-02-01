@@ -1,8 +1,9 @@
 {
   "loanData": {
-    "amount": 3500000,
-    "interest": 12.5,
-    "term": 13,
-    "date": "2025-01"
+    "amount": 1700000,
+    "interest": 20,
+    "term": 10,
+    "date": "2025-01",
+    "feesCharges": 10000
   }
 }

@@ -18,6 +18,7 @@ export interface LoanData {
   interest: number;
   term: number;
   date: string;
+  feesCharges?: number;
 }
 
 export interface BarChart {
@@ -26,4 +27,18 @@ export interface BarChart {
   interest:number,
   totalPayment:number,
   balance:number,
+}
+
+export interface EmiMora {
+  loanEmi: number,
+  loanApr: number,
+  totalInterestPayable: number,  
+  totalPayment: number
+}
+
+export interface TotalData {
+  Year: string,
+  principal:number,
+  interest:number,
+  loanEmi: number
 }

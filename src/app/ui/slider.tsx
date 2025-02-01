@@ -9,7 +9,8 @@ const initialFormValues: LoanData = {
   amount: 20000000,  
   interest: 6,  
   term: 4,  
-  date: "2025-01",  
+  date: "2025-01",
+  feesCharges: 0,
 };  
 
 const currencyFormatter = new Intl.NumberFormat("es-CO", {  
@@ -84,8 +85,8 @@ export default function LoanCalculator() {
           <input  
             type="text"  
             value={displayValue}  
-            readOnly  
-            className="p-2 border border-gray-300 rounded-l-md text-left text-normal font-semibold bg-gray-100 w-64"  
+              
+            className="p-2 border border-gray-300 rounded-l-md text-left text-normal color-form-input bg-gray-100 w-64"  
           />  
           <div className="border border-gray-300 border-l-0 rounded-r-md h-full grid place-items-center w-8 p-2 bg-currency">  
             <span>{simbol}</span>  
@@ -140,8 +141,8 @@ export default function LoanCalculator() {
         "Loan Amount",  
         "amount",  
         0,  
-        10,  
-        1,  
+        20000000,  
+        100000,  
         currencyFormatter.format(formValues.amount),  
         ["0", "2.5M", "5M", "7.5M", "10M", "12.5M", "15M", "17.5M", "20M"],  
         "$"  
@@ -166,6 +167,17 @@ export default function LoanCalculator() {
         0.5,  
         `${formValues.term}`,  
         ["0", "5", "10", "15", "20", "25", "30"]  
+      )}
+
+      {renderSliderSection(  
+        "Fees & Charges",  
+        "feesCharges",  
+        0,  
+        1000000,  
+        10000,  
+        currencyFormatter.format(formValues.feesCharges!),  
+        ["0", "20K", "40K", "60K", "80K", "100K"],
+        "$"
       )}  
 
       <div>  

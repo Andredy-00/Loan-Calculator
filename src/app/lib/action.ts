@@ -13,11 +13,12 @@ export async function updateLoanData(formData: FormData) {
     interest: Number(formData.get("interest")),
     term: Number(formData.get("term")),
     date: formData.get("date") as string,
+    feesCharges: Number(formData.get("feesCharges"))
   };
 
   try {
     // Leer los datos actuales
-    let currentData: { loanData: LoanData } = { loanData: { amount: 0, interest: 0, term: 0, date: "" } };
+    let currentData: { loanData: LoanData } = { loanData: { amount: 0, interest: 0, term: 0, date: "", feesCharges: 0 } };
     if (fs.existsSync(DATA_FILE_PATH)) {
       currentData = JSON.parse(fs.readFileSync(DATA_FILE_PATH, "utf8"));
     }
@@ -32,7 +33,7 @@ export async function updateLoanData(formData: FormData) {
     }
 
     // Revalidar solo la ruta que necesita actualización
-    revalidatePath("/ruta-de-tu-componente"); // Cambia esto por la ruta correcta
+    revalidatePath("/ruta-de-tu-componente");
   } catch (error) {
     console.error("Error al actualizar los datos:", error);
     throw new Error("Error al actualizar los datos.");
@@ -45,7 +46,7 @@ export async function getLoanData(): Promise<LoanData> {
   try {
     if (!fs.existsSync(DATA_FILE_PATH)) {
       // Si el archivo no existe, devolver valores por defecto
-      return { amount: 20000000, interest: 6, term: 4, date: "2025-01" };
+      return { amount: 20000000, interest: 6, term: 4, date: "2025-01", feesCharges: 0 };
     }
 
     const data = JSON.parse(fs.readFileSync(DATA_FILE_PATH, "utf8"));

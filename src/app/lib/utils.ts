@@ -1,4 +1,4 @@
-import { BarChart, DataProps, Payment } from "./definitions";
+import { BarChart, DataProps, EmiMora, Payment } from "./definitions";
 
 export const calculateCost = (
   principal: number,
@@ -122,7 +122,52 @@ export const transformData = (data: DataProps): BarChart[] => {
   });
 
   return yearlyData;
-};
+};  
+
+
+
+
+export function calculateEmiMora(data: Record<number, Payment[]>, feesAndCharges: number): EmiMora {  
+  let totalPrincipal = 0;  
+  let totalInterest = 0;  
+  let totalPayments = 0; // Total de todos los pagos  
+  let loanEmi = 0; // Pago mensual  
+  let numberOfMonths = 0;  
+
+  // Iterar sobre los datos por año y sumar pagos  
+  for (const year in data) {  
+    const loans = data[year];  
+    numberOfMonths += loans.length;  
+
+    // Calcular total de intereses, principal y pagos por mes  
+    const totalInteresAno = loans.reduce((sum, pago) => sum + pago.interest, 0);  
+    const totalPrincipalAno = loans.reduce((sum, pago) => sum + pago.principal, 0);  
+    const totalPagoAno = loans.reduce((sum, pago) => sum + pago.total, 0);  
+
+    // Sumar al total general  
+    totalInterest += totalInteresAno;  
+    totalPrincipal += totalPrincipalAno;  
+    totalPayments += totalPagoAno;  
+
+    if (numberOfMonths === loans.length) {  
+      loanEmi = loans[0].total; // Establecer loanEmi como el total del primer mes  
+    }  
+  }  
+
+  // Calculo de APR  
+  const numberOfYears = numberOfMonths / 12; // Convertir meses a años  
+  const loanApr = (totalInterest / totalPrincipal) * (1 / numberOfYears) * 100; // Cálculo del APR basado en el total  
+
+  // Total de pagos costeados acumulados  
+  const totalPayment = totalPayments + feesAndCharges; // Total de todos los pagos  
+
+  return {  
+    loanEmi,  
+    loanApr,  
+    totalInterestPayable: totalInterest, // Total de intereses pagados  
+    totalPayment, // Total de todos los pagos mensuales  
+  };  
+}  
 
 
 
