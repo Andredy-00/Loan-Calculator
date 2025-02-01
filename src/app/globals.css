@@ -20,7 +20,6 @@
 }
 
 @layer components {
-
   /* TABLES */
   .bg-table-principal {
     background-color: RGB(136, 168, 37);
@@ -33,12 +32,12 @@
   }
 
   .bg-table-rojo {
-    background-color: RGB(184,32,76);
+    background-color: RGB(184, 32, 76);
     color: white;
   }
 
   .bg-table-gris {
-    background-color: RGB(222,222,222);
+    background-color: RGB(222, 222, 222);
     color: black;
   }
 
@@ -47,12 +46,23 @@
   }
 
   .color-table-gris-oscuro-tr {
-    color: RGB(33,37,41, 0.9);
+    color: RGB(33, 37, 41, 0.9);
   }
 
   .text-table-size {
     font-size: 14px;
     font-weight: 400;
+  }
+
+  .acordion-table {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: red;
+  }
+
+  .acordion-table.open {
+    max-height: 100px;
   }
 
   .bg-gris-principal {
@@ -105,7 +115,7 @@
     z-index: 1;
   }
 
-  .renge-barra-5 input[type="range"]::-webkit-slider-thumb{
+  .renge-barra-5 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
 
@@ -118,7 +128,7 @@
     z-index: 1;
   }
 
-  .renge-barra-6 input[type="range"]::-moz-range-thumb{
+  .renge-barra-6 input[type="range"]::-moz-range-thumb {
     border: none;
     border-radius: 100%;
 
@@ -155,7 +165,7 @@
     margin-top: 6px;
     border-radius: 12px;
 
-    background-color:white;
+    background-color: white;
     z-index: 0;
   }
 

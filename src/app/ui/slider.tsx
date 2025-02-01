@@ -96,6 +96,7 @@ export default function LoanCalculator() {
         name={name}
         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
       />
+      {/* Markers */}
       <div className="flex justify-between text-xs text-gray-600">
         {markers.map((marker, index) => (
           <div key={index} className="flex flex-col items-center">
