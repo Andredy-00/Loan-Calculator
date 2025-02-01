@@ -2,15 +2,9 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { getLoanData, updateLoanData } from "../lib/action";
+import { LoanData } from "../lib/definitions";
 
-interface LoanFormValues {
-  amount: number;
-  interest: number;
-  term: number;
-  date: string;
-}
-
-const initialFormValues: LoanFormValues = {
+const initialFormValues: LoanData = {
   amount: 20000000,
   interest: 6,
   term: 4,
@@ -26,7 +20,7 @@ const currencyFormatter = new Intl.NumberFormat("es-CO", {
 export default function LoanCalculator() {
   const [pending, setPending] = useState(false);
   const [formValues, setFormValues] =
-    useState<LoanFormValues>(initialFormValues);
+    useState<LoanData>(initialFormValues);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -68,7 +62,7 @@ export default function LoanCalculator() {
 
   const renderSliderSection = (
     title: string,
-    name: keyof LoanFormValues,
+    name: keyof LoanData,
     min: number,
     max: number,
     step: number,

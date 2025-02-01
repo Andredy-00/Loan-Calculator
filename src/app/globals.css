@@ -20,6 +20,41 @@
 }
 
 @layer components {
+
+  /* TABLES */
+  .bg-table-principal {
+    background-color: RGB(136, 168, 37);
+    color: white;
+  }
+
+  .bg-table-amarillo {
+    background-color: RGB(237, 140, 43);
+    color: white;
+  }
+
+  .bg-table-rojo {
+    background-color: RGB(184,32,76);
+    color: white;
+  }
+
+  .bg-table-gris {
+    background-color: RGB(222,222,222);
+    color: black;
+  }
+
+  .color-table-gris-oscuro {
+    color: #212529;
+  }
+
+  .color-table-gris-oscuro-tr {
+    color: RGB(33,37,41, 0.9);
+  }
+
+  .text-table-size {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
   .bg-gris-principal {
     background-color: RGB(238, 238, 238);
   }

@@ -2,18 +2,12 @@
 import { revalidatePath } from "next/cache";
 import path from "path";
 import fs from "fs";
-import { Loan } from "./definitions";
+import { LoanData } from "./definitions";
 
 const DATA_FILE_PATH = path.join(process.cwd(), 'src', 'app', 'data', 'loan-data.json');
 
 export async function updateLoanData(formData: FormData) {
-  interface LoanData {
-    amount: number;
-    interest: number;
-    term: number;
-    date: string;
-  }
-
+  
   const newData: LoanData = {
     amount: Number(formData.get("amount")),
     interest: Number(formData.get("interest")),
@@ -47,7 +41,7 @@ export async function updateLoanData(formData: FormData) {
   return newData;
 }
 
-export async function getLoanData(): Promise<Loan> {
+export async function getLoanData(): Promise<LoanData> {
   try {
     if (!fs.existsSync(DATA_FILE_PATH)) {
       // Si el archivo no existe, devolver valores por defecto

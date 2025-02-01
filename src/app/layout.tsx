@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { lato } from "./ui/fonts";
 
 export const metadata: Metadata = {
   title: "Loan Calculator",
@@ -13,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-white flex justify-center p-2">
+      <body className={`min-h-screen bg-white flex justify-center p-5 ${lato.className}`}>
         {children}
       </body>
     </html>

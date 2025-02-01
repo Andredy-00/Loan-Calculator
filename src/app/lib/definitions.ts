@@ -13,12 +13,12 @@ export interface DataProps {
   data: Record<number, Payment[]>
 }
 
-export type Loan = {
+export interface LoanData {
   amount: number;
   interest: number;
   term: number;
   date: string;
-};
+}
 
 export interface BarChart {
   year:string,

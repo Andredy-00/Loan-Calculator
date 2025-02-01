@@ -77,19 +77,18 @@ export function calcularPago(
 
 export function agruparPorAno(payments: Payment[]) {
   const MESES = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",  ];
 
   return payments.reduce((grupos, pago) => {
     const año = pago.year;
