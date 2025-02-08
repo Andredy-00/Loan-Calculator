@@ -2,7 +2,6 @@ import Table from "./ui/table";
 import { fetchEmiMora, fetchLoanData } from "./lib/data";
 import BarChart from "./ui/bar-chart";
 import LoanSlider from "./ui/slider";
-import PieChartComponent from "./ui/pie-chart";
 
 export default async function Home() {
   const data = await fetchLoanData();

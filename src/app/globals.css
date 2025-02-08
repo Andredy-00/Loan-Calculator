@@ -60,6 +60,11 @@
     color: #555C62;
   }
 
+  .bg-form-content {
+    background-color: #CBD3DA;
+    border: #C4CCD4 1px solid;
+  }
+
   .acordion-table {
     max-height: 0;
     overflow: hidden;

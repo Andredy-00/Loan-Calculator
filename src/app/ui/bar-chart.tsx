@@ -26,7 +26,7 @@ export default function BarChart(data: DataProps) {
   const dataTransformed = transformData(data);
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={450}>
       <ComposedChart
         data={dataTransformed}
         margin={{ top: 20, right: 50, left: 50, bottom: 50 }}

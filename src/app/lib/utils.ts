@@ -27,6 +27,7 @@ export function calcularPago(
 ) {
   // Calcula la tasa de interés mensual (tasa anual dividida por 12 meses y convertida a decimal)
   const monthlyInterestRate = annualInterestRate / 12 / 100;
+  
   // Calcula el número total de meses del préstamo
   const totalMonths = years * 12;
 
@@ -42,7 +43,7 @@ export function calcularPago(
 
   // Inicializa las variables de seguimiento
   let currentDate = new Date(fechaInicio);
-
+  
   let balance = principal;
   let mesInicial = currentDate.getMonth();
 
@@ -57,6 +58,7 @@ export function calcularPago(
 
     // Calcula el mes y año actual considerando el mes inicial
     const currentMonth = (mesInicial + month) % 12;
+    
     const currentYear =
       fechaInicio.getFullYear() + Math.floor((mesInicial + month) / 12);
 
@@ -123,9 +125,6 @@ export const transformData = (data: DataProps): BarChart[] => {
 
   return yearlyData;
 };  
-
-
-
 
 export function calculateEmiMora(data: Record<number, Payment[]>, feesAndCharges: number): EmiMora {  
   let totalPrincipal = 0;  
