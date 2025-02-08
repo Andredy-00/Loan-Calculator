@@ -6,6 +6,7 @@ import { EmiMora, LoanData, Mark } from "../lib/definitions";
 import { Box, Slider } from "@mui/material";
 import PieChartComponent from "./pie-chart";
 import CheckIcon from "@mui/icons-material/Check";
+import InputsEx from './inputs';
 
 const initialFormValues: LoanData = {
   amount: 20000000,
@@ -161,6 +162,7 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
       <div className="p-6 pb-2">
 
         <input type="text" name="amount" value={currencyFormatter.format(formValues.amount)} onChange={handleInputChange} />
+        <InputsEx/>
 
         {renderSliderSection(
           "Loan Amount",
