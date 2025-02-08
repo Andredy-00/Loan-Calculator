@@ -48,3 +48,8 @@ export interface TotalData {
   interest:number,
   loanEmi: number
 }
+
+export interface Mark {
+  value: number;
+  label: string;
+}

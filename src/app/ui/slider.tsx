@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { getLoanData, updateLoanData } from "../lib/action";
-import { EmiMora, LoanData } from "../lib/definitions";
+import { EmiMora, LoanData, Mark } from "../lib/definitions";
 import { Box, Slider } from "@mui/material";
 import PieChartComponent from "./pie-chart";
 import CheckIcon from "@mui/icons-material/Check";
@@ -15,6 +15,7 @@ const initialFormValues: LoanData = {
   feesCharges: 0,
 };
 
+// todo: Crear funcion reutilizable
 const currencyFormatter = new Intl.NumberFormat("es-CO", {
   style: "currency",
   currency: "COP",
@@ -22,8 +23,9 @@ const currencyFormatter = new Intl.NumberFormat("es-CO", {
 });
 
 export default function LoanCalculator({ data }: { data: EmiMora }) {
-  const [pending, setPending] = useState(false);
+  
   const [formValues, setFormValues] = useState<LoanData>(initialFormValues);
+  const [inputValues, setInputValues] = useState<LoanData>(initialFormValues);
 
   // Carga los datos iniciales desde el servidor
   useEffect(() => {
@@ -32,6 +34,7 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
         const data = await getLoanData();
         setFormValues(data);
       } catch (error) {
+        // todo: Implementar manejo de errores
         console.error("Error loading initial data:", error);
       }
     };
@@ -41,24 +44,26 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    let newValue: number | string;
-
-    if (name === "date") {
-      newValue = value;
-    } else {
-      const parsedValue = parseFloat(value.replace(/[^0-9.]/g, ''));
-      newValue = isNaN(parsedValue) ? 0 : parsedValue;
-    }
 
     setFormValues((prev) => ({
       ...prev,
-      [name]: newValue,
+      [name]: value,
     }));
   }, []);
 
+
+  const handleInpChange = (e: React.ChangeEvent<HTMLInputElement>) => {  
+    
+    const { name, value } = e.target 
+
+    setInputValues((prev) => ({...prev, [name]: parseInt(value)})); // Actualizamos el estado  
+    console.log(inputValues);
+    
+  };
+
   const handleMouseUp = useCallback(async () => {
     try {
-      setPending(true);
+      
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value.toString());
@@ -67,7 +72,7 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
     } catch (error) {
       console.error("Error updating loan data:", error);
     } finally {
-      setPending(false);
+      // todo: pendiente de implementar el toast
     }
   }, [formValues]);
 
@@ -79,6 +84,10 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
       }));
     };
 
+    function valuetext(value: number) {
+      return `${value}`;
+    }
+
   const renderSliderSection = (
     title: string,
     name: keyof LoanData,
@@ -86,8 +95,8 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
     max: number,
     step: number,
     displayValue: string,
-    markers: string[],
-    simbol?: string
+    markers: Mark[],
+    simbol?: string,
   ) => (
     <div className="mb-8">
       <div className="w-full flex items-center justify-center gap-8 mb-1">
@@ -96,7 +105,8 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           <input
             type="text"
             value={displayValue}
-            className="p-2 border border-gray-300 rounded-l-md text-left text-normal color-form-input bg-gray-100 w-64"
+            onChange={handleInpChange}
+            className="p-2 border border-gray-300 rounded-l-md text-left text-normal color-form-input bg-gray-100 w-64 focus:outline-none"
           />
           <div className="border border-gray-300 border-l-0 rounded-r-md h-full grid place-items-center w-8 p-2 bg-currency">
             <span>{simbol}</span>
@@ -105,12 +115,13 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
       </div>
       <Box sx={{ width: "100%", padding: "0" }}>
         <Slider
-          value={Number(formValues[name])} // Asegúrate de que sea un número
+          value={Number(formValues[name])}
           min={min}
           max={max}
           step={step}
-          onChange={handleSliderChange(name)} // Llama a la función adaptada para manejar cambios
+          onChange={handleSliderChange(name)}
           onMouseUp={handleMouseUp}
+          marks={markers}
           sx={{
             color: "#ED8C2B",
             height: 7,
@@ -134,28 +145,51 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
         />
       </Box>
       {/* Markers */}
-      <div className="flex justify-between text-xs text-gray-600">
+     {/*  <div className="flex justify-between text-xs text-gray-600">
         {markers.map((marker, index) => (
           <div key={index} className="flex flex-col items-center">
             <div className="rayita-slider"></div>
             <span>{marker}</span>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 
   return (
     <div className="w-8/12 bg-gris-principal border-s-gris">
       <div className="p-6 pb-2">
+
+        <input type="text" name="amount" value={currencyFormatter.format(formValues.amount)} onChange={handleInputChange} />
+
         {renderSliderSection(
           "Loan Amount",
           "amount",
           0,
-          20000000,
+          1000000,
           100000,
           currencyFormatter.format(formValues.amount),
-          ["0", "2.5M", "5M", "7.5M", "10M", "12.5M", "15M", "17.5M", "20M"],
+          [{
+            value: 0,
+            label: '0',
+            },
+            {
+            value: 250000,
+            label: '250k',
+            },
+            {
+            value: 500000,
+            label: '500k',
+            },
+            {
+            value: 750000,
+            label: '750k',
+            },
+            {
+              value: 1000000,
+              label: '1M',
+              },
+           ],
           "$"
         )}
 
@@ -166,7 +200,23 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           20,
           0.25,
           `${formValues.interest}`,
-          ["5%", "7.5%", "10%", "12.5%", "15%", "17.5%", "20%"],
+          [{
+            value: 5,
+            label: '5%',
+            },
+            {
+              value: 10,
+              label: '10%',
+              },
+              {
+                value: 15,
+                label: '15%',
+                },
+                {
+                  value: 20,
+                  label: '20%',
+                  },
+            ],
           "%"
         )}
 
@@ -177,7 +227,23 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           30,
           0.5,
           `${formValues.term}`,
-          ["0", "5", "10", "15", "20", "25", "30"],
+          [{
+            value: 0,
+            label: '0',
+            },
+            {
+              value: 10,
+              label: '10',
+              },
+              {
+                value: 20,
+                label: '20',
+                },
+                {
+                  value: 30,
+                  label: '30',
+                  },
+          ],
           "Yr"
         )}
 
@@ -185,11 +251,40 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           "Fees & Charges",
           "feesCharges",
           0,
-          1000000,
+          100000,
           10000,
           currencyFormatter.format(formValues.feesCharges!),
-          ["0", "20K", "40K", "60K", "80K", "100K"],
-          "$"
+          [
+            {
+              value: 0,
+              label: '0',
+              },
+              {
+                value: 20000,
+                label: '20k',
+                },
+
+                {
+                  value: 40000,
+                  label: '40k',
+                  },
+
+                  {
+                    value: 60000,
+                    label: '60k',
+                    },
+
+                    {
+                      value: 80000,
+                      label: '80k',
+                      },
+
+                      {
+                        value: 100000,
+                        label: '100k',
+                        },
+          ],
+          "$",
         )}
 
         <div className="w-full flex items-center justify-center gap-5 p-3">
