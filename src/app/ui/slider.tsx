@@ -6,7 +6,7 @@ import { EmiMora, LoanData, Mark } from "../lib/definitions";
 import { Box, Slider } from "@mui/material";
 import PieChartComponent from "./pie-chart";
 import CheckIcon from "@mui/icons-material/Check";
-import InputsEx from './inputs';
+import InputSlider from './InputSlider';
 
 const initialFormValues: LoanData = {
   amount: 20000000,
@@ -145,24 +145,12 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           }}
         />
       </Box>
-      {/* Markers */}
-     {/*  <div className="flex justify-between text-xs text-gray-600">
-        {markers.map((marker, index) => (
-          <div key={index} className="flex flex-col items-center">
-            <div className="rayita-slider"></div>
-            <span>{marker}</span>
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 
   return (
     <div className="w-8/12 bg-gris-principal border-s-gris">
       <div className="p-6 pb-2">
-
-        <input type="text" name="amount" value={currencyFormatter.format(formValues.amount)} onChange={handleInputChange} />
-        <InputsEx/>
 
         {renderSliderSection(
           "Loan Amount",
@@ -296,6 +284,18 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
             <h1>EMI in Arrears</h1>
           </div>
         </div>
+
+        {/* -- */}
+        <InputSlider
+          title="New Loan Amount"
+          name="amount"
+          min={0}
+          max={1000000}
+          step={100000}
+          displayValue={"0"}
+          markers={[{value: 500000, label: '500k'}]}
+          simbol="$"
+        />
       </div>
 
       <div className="w-full flex border-t color-border-gris border-b">
