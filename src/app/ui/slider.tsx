@@ -8,6 +8,7 @@ import PieChartComponent from "./pie-chart";
 import CheckIcon from "@mui/icons-material/Check";
 import InputSlider from "./InputSlider";
 import { markAmount, markFeesCharges } from "../lib/marks";
+import InputData from "./InputDataPiker";
 
 const initialFormValues: LoanData = {
   amount: 20000000,
@@ -264,6 +265,7 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
             <h1>EMI in Arrears</h1>
           </div>
         </div>
+        <InputData/>
       </div>
 
       <div className="w-full flex border-t color-border-gris border-b">
