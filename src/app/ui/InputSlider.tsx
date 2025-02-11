@@ -18,13 +18,14 @@ interface InputSliderProps {
   min: number;
   max: number;
   step: number;
-  displayValue: string;
+  formValue: number;
   markers: Mark[];
   simbol?: string;
+  onChange: (name:string, value: number) => void;
 }
 
 export default function InputSlider(props: InputSliderProps) {
-  const { title, name, min, max, step, displayValue, markers, simbol } = props;
+  const { title, name, min, max, step, formValue, markers, simbol, onChange } = props;
 
   const [values, setValues] = useState<initialValues>(initialValues);
   const [previousValue, setPreviousValue] = useState<number | null>(null);
@@ -69,13 +70,23 @@ export default function InputSlider(props: InputSliderProps) {
 
   /* Inicializar estados */
   useEffect(() => {
-    setPreviousValue(values.numberformat);
-  }, []);
+    /* setPreviousValue(values.numberformat); */
+    setValues({
+      ...values,
+      numberformat: formValue,
+    });
+
+    console.log(formValue);
+    
+  }, [formValue]);
 
   const sendData = () => {
-    if (values.numberformat !== previousValue) {
-      console.log("Enviar data: " + values.numberformat);
-      setPreviousValue(values.numberformat);
+    console.log(`${values.numberformat} : ${formValue}`);
+    
+    if (values.numberformat !== formValue) {
+      /* console.log("Enviar data: " + values.numberformat); */
+      /* setPreviousValue(values.numberformat); */
+      onChange(name, values.numberformat);
     }
   };
 

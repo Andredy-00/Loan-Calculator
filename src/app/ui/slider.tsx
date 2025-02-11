@@ -16,7 +16,7 @@ const initialFormValues: LoanData = {
   feesCharges: 0,
 };
 
-// todo: Crear funcion reutilizable
+// todo: Eliminar funcion
 const currencyFormatter = new Intl.NumberFormat("es-CO", {
   style: "currency",
   currency: "COP",
@@ -52,15 +52,27 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
     }));
   }, []);
 
+  const handleInputChangeEx = useCallback((name:string, value:number ) => { 
 
-  const handleInpChange = (e: React.ChangeEvent<HTMLInputElement>) => {  
+   try {
+    console.log("Entro");
     
-    const { name, value } = e.target 
+      setFormValues((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
 
-    setInputValues((prev) => ({...prev, [name]: parseInt(value)})); // Actualizamos el estado  
-    console.log(inputValues);
+    }catch (error) {
+      console.error("Error updating loan data:", error);
+    }finally{
+
+      console.log(formValues);
+    }
+
+      console.log(name, value);
+      
     
-  };
+  }, []);
 
   const handleMouseUp = useCallback(async () => {
     try {
@@ -106,7 +118,7 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           <input
             type="text"
             value={displayValue}
-            onChange={handleInpChange}
+            
             className="p-2 border border-gray-300 rounded-l-md text-left text-normal color-form-input bg-gray-100 w-64 focus:outline-none"
           />
           <div className="border border-gray-300 border-l-0 rounded-r-md h-full grid place-items-center w-8 p-2 bg-currency">
@@ -292,9 +304,10 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           min={0}
           max={1000000}
           step={100000}
-          displayValue={"0"}
+          formValue={formValues.amount}
           markers={[{value: 500000, label: '500k'}]}
           simbol="$"
+          onChange={handleInputChangeEx}
         />
       </div>
 
