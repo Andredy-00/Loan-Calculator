@@ -26,7 +26,6 @@ const currencyFormatter = new Intl.NumberFormat("es-CO", {
 export default function LoanCalculator({ data }: { data: EmiMora }) {
   
   const [formValues, setFormValues] = useState<LoanData>(initialFormValues);
-  const [inputValues, setInputValues] = useState<LoanData>(initialFormValues);
 
   // Carga los datos iniciales desde el servidor
   useEffect(() => {
@@ -41,6 +40,18 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
     };
     loadInitialData();
   }, []);
+
+  useEffect(() => {
+    // Actualiza los datos en el servidor cuando el estado de formValues cambia
+    const updateLoanDataInServer = async () => {
+    const formData = new FormData();
+      Object.entries(formValues).forEach(([key, value]) => {
+        formData.append(key, value.toString());
+      });
+      await updateLoanData(formData);
+    }
+    updateLoanDataInServer();
+  },[formValues]);
 
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

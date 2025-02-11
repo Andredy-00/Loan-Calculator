@@ -1,6 +1,6 @@
 {
   "loanData": {
-    "amount": 300000,
+    "amount": 60000000,
     "interest": 15,
     "term": 10,
     "date": "2023-10",
