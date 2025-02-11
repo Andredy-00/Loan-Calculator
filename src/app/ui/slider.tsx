@@ -6,7 +6,8 @@ import { EmiMora, LoanData, Mark } from "../lib/definitions";
 import { Box, Slider } from "@mui/material";
 import PieChartComponent from "./pie-chart";
 import CheckIcon from "@mui/icons-material/Check";
-import InputSlider from './InputSlider';
+import InputSlider from "./InputSlider";
+import { markAmount, markFeesCharges } from "../lib/marks";
 
 const initialFormValues: LoanData = {
   amount: 20000000,
@@ -24,7 +25,6 @@ const currencyFormatter = new Intl.NumberFormat("es-CO", {
 });
 
 export default function LoanCalculator({ data }: { data: EmiMora }) {
-  
   const [formValues, setFormValues] = useState<LoanData>(initialFormValues);
 
   // Carga los datos iniciales desde el servidor
@@ -44,50 +44,46 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
   useEffect(() => {
     // Actualiza los datos en el servidor cuando el estado de formValues cambia
     const updateLoanDataInServer = async () => {
-    const formData = new FormData();
+      const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value.toString());
       });
       await updateLoanData(formData);
-    }
+    };
     updateLoanDataInServer();
-  },[formValues]);
+  }, [formValues]);
 
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }, []);
-
-  const handleInputChangeEx = useCallback((name:string, value:number ) => { 
-
-   try {
-    console.log("Entro");
-    
       setFormValues((prev) => ({
         ...prev,
         [name]: value,
       }));
+    },
+    []
+  );
 
-    }catch (error) {
+  const handleInputChangeEx = useCallback((name: string, value: number) => {
+    try {
+      console.log("Entro");
+
+      setFormValues((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } catch (error) {
       console.error("Error updating loan data:", error);
-    }finally{
-
+    } finally {
       console.log(formValues);
     }
 
-      console.log(name, value);
-      
-    
+    console.log(name, value);
   }, []);
 
   const handleMouseUp = useCallback(async () => {
     try {
-      
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value.toString());
@@ -108,9 +104,9 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
       }));
     };
 
-    function valuetext(value: number) {
-      return `${value}`;
-    }
+  function valuetext(value: number) {
+    return `${value}`;
+  }
 
   const renderSliderSection = (
     title: string,
@@ -120,7 +116,7 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
     step: number,
     displayValue: string,
     markers: Mark[],
-    simbol?: string,
+    simbol?: string
   ) => (
     <div className="mb-8">
       <div className="w-full flex items-center justify-center gap-8 mb-1">
@@ -129,7 +125,6 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           <input
             type="text"
             value={displayValue}
-            
             className="p-2 border border-gray-300 rounded-l-md text-left text-normal color-form-input bg-gray-100 w-64 focus:outline-none"
           />
           <div className="border border-gray-300 border-l-0 rounded-r-md h-full grid place-items-center w-8 p-2 bg-currency">
@@ -174,37 +169,18 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
   return (
     <div className="w-8/12 bg-gris-principal border-s-gris">
       <div className="p-6 pb-2">
-
-        {renderSliderSection(
-          "Loan Amount",
-          "amount",
-          0,
-          1000000,
-          100000,
-          currencyFormatter.format(formValues.amount),
-          [{
-            value: 0,
-            label: '0',
-            },
-            {
-            value: 250000,
-            label: '250k',
-            },
-            {
-            value: 500000,
-            label: '500k',
-            },
-            {
-            value: 750000,
-            label: '750k',
-            },
-            {
-              value: 1000000,
-              label: '1M',
-              },
-           ],
-          "$"
-        )}
+        {/* -- */}
+        <InputSlider
+          title="Prestamo"
+          name="amount"
+          min={0}
+          max={10000000}
+          step={100000}
+          formValue={formValues.amount}
+          markers={markAmount}
+          simbol="$"
+          onChange={handleInputChangeEx}
+        />
 
         {renderSliderSection(
           "Interest Rate",
@@ -213,23 +189,24 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           20,
           0.25,
           `${formValues.interest}`,
-          [{
-            value: 5,
-            label: '5%',
+          [
+            {
+              value: 5,
+              label: "5%",
             },
             {
               value: 10,
-              label: '10%',
-              },
-              {
-                value: 15,
-                label: '15%',
-                },
-                {
-                  value: 20,
-                  label: '20%',
-                  },
-            ],
+              label: "10%",
+            },
+            {
+              value: 15,
+              label: "15%",
+            },
+            {
+              value: 20,
+              label: "20%",
+            },
+          ],
           "%"
         )}
 
@@ -240,86 +217,53 @@ export default function LoanCalculator({ data }: { data: EmiMora }) {
           30,
           0.5,
           `${formValues.term}`,
-          [{
-            value: 0,
-            label: '0',
+          [
+            {
+              value: 0,
+              label: "0",
             },
             {
               value: 10,
-              label: '10',
-              },
-              {
-                value: 20,
-                label: '20',
-                },
-                {
-                  value: 30,
-                  label: '30',
-                  },
+              label: "10",
+            },
+            {
+              value: 20,
+              label: "20",
+            },
+            {
+              value: 30,
+              label: "30",
+            },
           ],
           "Yr"
         )}
 
-        {renderSliderSection(
-          "Fees & Charges",
-          "feesCharges",
-          0,
-          100000,
-          10000,
-          currencyFormatter.format(formValues.feesCharges!),
-          [
-            {
-              value: 0,
-              label: '0',
-              },
-              {
-                value: 20000,
-                label: '20k',
-                },
-
-                {
-                  value: 40000,
-                  label: '40k',
-                  },
-
-                  {
-                    value: 60000,
-                    label: '60k',
-                    },
-
-                    {
-                      value: 80000,
-                      label: '80k',
-                      },
-
-                      {
-                        value: 100000,
-                        label: '100k',
-                        },
-          ],
-          "$",
-        )}
+        <InputSlider
+          title="Tarifas y cargos"
+          name="feesCharges"
+          min={0}
+          max={1000000}
+          step={10000}
+          formValue={formValues.feesCharges!}
+          markers={markFeesCharges}
+          simbol="$"
+          onChange={handleInputChangeEx}
+        />
 
         <div className="w-full flex items-center justify-center gap-5 p-3">
           <h1>EMI Scheme</h1>
           <div className="bg-form-content p-2 px-3 rounded-md flex items-center gap-1">
-            <CheckIcon style={{ color: "#212529", fontSize: '20px', stroke: '#212529', strokeWidth: 2 }} />
+            <CheckIcon
+              style={{
+                color: "#212529",
+                fontSize: "20px",
+                stroke: "#212529",
+                strokeWidth: 2,
+              }}
+            />
             <h1>EMI in Arrears</h1>
           </div>
         </div>
-
-        {/* -- */}
-        <InputSlider
-          title="New Loan Amount"
-          name="amount"
-          min={0}
-          max={1000000}
-          step={100000}
-          formValue={formValues.amount}
-          markers={[{value: 500000, label: '500k'}]}
-          simbol="$"
-          onChange={handleInputChangeEx}
-        />
       </div>
 
       <div className="w-full flex border-t color-border-gris border-b">
